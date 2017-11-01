@@ -20,7 +20,7 @@ cooks.distance(slr)
 which(cooks.distance(slr)>2)
 ks.test(stdres(slr),"pnorm")
 #Prediction Interval
-df <- data.frame(age=50, weight=203, height=67, neck=40.2, chest=114.8, abdom=108.1, hip=102.5, thigh=6.13, knee=41.1, ankle=24.7, biceps=34.1, forearm=31, wrist=18.3)
+df <- data.frame(age=50, weight=203, height=67, neck=40.2, chest=114.8, abdom=108.1, hip=102.5, thigh=61.3, knee=41.1, ankle=24.7, biceps=34.1, forearm=31, wrist=18.3)
 predict.lm(slr, newdata=df, interval="prediction")
 #Cross Validation
 coverage <- numeric(250)
@@ -34,8 +34,8 @@ for(i in 1:n.cv){
   train.data <- bodyfat[-obs.test,]  
   my.model <- lm(brozek ~ ., data=train.data)
   test.preds <- predict.lm(my.model, newdata=test.data, interval="prediction")
-  bias[i] <- mean((test.preds-test.data$brozek))
-  rpmse[i] <- sqrt(mean((test.preds-test.data$brozek)^2))
+  bias[i] <- mean((test.preds[,1]-test.data$brozek))
+  rpmse[i] <- sqrt(mean((test.preds[,1]-test.data$brozek)^2))
   coverage[i] <- mean((test.preds[,2] < test.data$brozek) & (test.preds[,3] > test.data$brozek))
   piw[i] <- mean(test.preds[,3]-test.preds[,2])}
 mean(bias)
